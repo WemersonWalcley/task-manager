@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3c.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+<h:head>
+	<meta charset="UTF-8" />
+	<title>Gerenciador de Tarefas</title>
+
+	<h:outputStylesheet library="css" name="task-creator-style.css" />
+
+</h:head>
+
+<h:body>
+	<div class="header">GERENCIADOR DE TAREFAS</div>
+	<div class="body">
+		<p:panel class="panel" header="Cadastrar Tarefa">
+			<h:form>
+				<div class="panel-row-title">
+					<div class="panel-title-label">
+						<h:outputLabel for="title" value="Título: " />
+					</div>
+					<div class="panel-input-title">
+						<p:inputText id="input-title"
+							label="Firstname" />
+					</div>
+				</div>
+				<div class="panel-row-title">
+					<div class="panel-description-label">
+						<h:outputLabel for="title" value="Descrição: " />
+					</div>
+					<div class="panel-input-description">
+						<p:inputTextarea rows="3" cols="30" counter="display"
+							maxlength="300" counterTemplate="{0} characters remaining."
+							autoResize="true" />
+						<h:outputText id="display" class="block" />
+					</div>
+				</div>
+				<p:commandButton class="create-task-btn" type="submit"
+					value="Adicionar Tarefa" icon="ui-icon-check"
+					action="task-list?faces-redirect=true" />
+			</h:form>
+		</p:panel>
+	</div>
+</h:body>
+</html>

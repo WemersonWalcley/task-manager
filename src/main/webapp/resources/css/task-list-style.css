@@ -1,0 +1,103 @@
+@charset "UTF-8";
+
+/*################Components configurations################*/
+
+/*Apply to all labels*/
+label {
+	padding: 10px;
+}
+
+/*Apply to all table heads*/
+th{
+	text-align: center !important;
+}
+
+/*Apply to all combobox*/
+.ui-selectonemenu {
+	width: 205px !important;
+}
+
+/*Apply to all buttons*/
+.ui-button {
+	padding-right: 0.8rem !important;
+}
+
+/*Apply to panel content*/
+.ui-panel-content {
+	height: 70vh;
+}
+
+/* ################Main page content configurations################*/
+.header {
+	background-color: #2196f3;
+	width: 100%;
+	color: white;
+	font-size: 36px;
+	height: 5vh;
+	text-align: center;
+}
+
+.body {
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	height: 90vh;
+}
+
+/* ################General panel configurations################ */
+.panel {
+	width: 70%;
+}
+
+.panel .panel-body {
+	display: flex;
+	flex-direction: row;
+}
+
+.panel-body .panel-label-column {
+	display: flex;
+	height: 18vh;
+	flex-direction: column;
+	width: 12%;
+	text-align: right;
+	justify-content: space-between;
+}
+
+.panel-body .panel-input-column {
+	display: flex;
+	flex-direction: column;
+	height: 18vh;
+	width: 80%;
+	justify-content: space-between;
+}
+
+.panel-input-column #input-number-filter {
+	width: 25%;
+	height: 41px;
+}
+
+.panel-input-column #input-title-filter {
+	height: 41px;
+}
+
+.panel-input-column .panel-input-column-row {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: space-between;
+}
+
+/*################Table configuration################*/
+.table {
+	margin-top: 80px;
+}
+
+.table .th-number, .th-title{
+	width: 150px;
+}
+
+.create-task-btn{
+	float: right;
+	margin-top: 200px !important;
+}
+

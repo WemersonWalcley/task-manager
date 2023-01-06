@@ -1,0 +1,56 @@
+/* ################# General configurations #################*/
+.ui-inputfield{
+	width: 55vw;
+}
+
+.header {
+	background-color: #2196f3;
+	width: 100%;
+	color: white;
+	font-size: 36px;
+	height: 5vh;
+	text-align: center;
+}
+
+.body {
+	justify-content: center;
+	align-items: center;
+	display: flex;
+	height: 90vh;
+}
+
+/* ################# Panel configurations #################*/
+.ui-panel-content {
+	height: 70vh;
+}
+
+.panel {
+	width: 70%;
+}
+
+.panel .panel-row-title {
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 20px;
+	width: 100%;
+}
+
+.panel-title-label, .panel-description-label{
+	width: 150px;
+	text-align: right;
+	margin-top: 6px;
+}
+
+.panel-input-title{
+	margin-left: 20px;
+}
+
+.panel-input-description{
+	margin-left: 20px;
+	display: flex;
+	flex-direction: column;
+}
+
+.ui-panel-content{
+	padding: 30px !important;
+}
