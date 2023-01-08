@@ -27,7 +27,6 @@ public class Task implements Serializable {
 
 	public Task(String title, TaskResponsibleEnum taskResponsibleEnum, TaskSituationEnum taskSituationEnum,
 			TaskPriorityLevelEnum taskPriorityLevelEnum, Date deadline) {
-		super();
 		this.title = title;
 		this.taskResponsibleEnum = taskResponsibleEnum;
 		this.taskSituationEnum = taskSituationEnum;
@@ -83,7 +82,7 @@ public class Task implements Serializable {
 		this.description = description;
 	}
 
-	public TaskResponsibleEnum getTaskResponsible() {
+	public TaskResponsibleEnum getTaskResponsibleEnum() {
 		return taskResponsibleEnum;
 	}
 
@@ -91,7 +90,7 @@ public class Task implements Serializable {
 		this.taskResponsibleEnum = taskResponsibleEnum;
 	}
 
-	public TaskSituationEnum getTaskSituation() {
+	public TaskSituationEnum getTaskSituationEnum() {
 		return taskSituationEnum;
 	}
 
@@ -107,7 +106,7 @@ public class Task implements Serializable {
 		this.deadline = deadline;
 	}
 
-	public TaskPriorityLevelEnum getTaskPriorityLevel() {
+	public TaskPriorityLevelEnum getTaskPriorityLevelEnum() {
 		return taskPriorityLevelEnum;
 	}
 

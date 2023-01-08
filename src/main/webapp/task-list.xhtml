@@ -64,7 +64,8 @@
 					</div>
 				</div>
 				<div class="table">
-					<p:dataTable value="#{taskBean.tasks}" var="task" paginator="true" rows="2" paginatorPosition="bottom">
+					<p:dataTable id="tasksDataTable" value="#{taskBean.tasks}"
+						var="task" paginator="true" rows="3" paginatorPosition="bottom">
 						<p:column headerText="Número">
 							<h:outputText value="#{task.id}" />
 						</p:column>
@@ -72,14 +73,13 @@
 							<h:outputText value="#{task.title}" />
 						</p:column>
 						<p:column headerText="Responsável">
-							<h:outputText value="#{task.taskResponsible}" />
+							<h:outputText value="#{task.taskResponsibleEnum}" />
 						</p:column>
 						<p:column headerText="Situação">
-							<h:outputText value="#{task.taskSituation}" />
+							<h:outputText value="#{task.taskSituationEnum}" />
 						</p:column>
 						<p:column exportable="false">
-							<p:commandButton icon="pi pi-pencil"
-								update=""
+							<p:commandButton icon="pi pi-pencil" update=""
 								oncomplete="PF('manageProductDialog').show()"
 								styleClass="edit-button rounded-button ui-button-success"
 								process="@this">
@@ -95,15 +95,63 @@
 							</p:commandButton>
 						</p:column>
 					</p:dataTable>
-					
-					<p:dialog header="Nova Task" widgetVar="taskDialogWidgetVar">
-					
+					<p:dialog id="registerTaskModal" header="Cadastrar Tarefa"
+						widgetVar="taskDialogWidgetVar" modal="true" resizable="false"
+						closeOnEscape="true" draggable="false">
+						<h:panelGrid columns="2" rendered="#{taskBean.task ne null}">
+							<h:outputLabel for="title" value="Título: " />
+							<p:inputText id="title" value="#{taskBean.task.title}" size="80"
+								label="Firstname" />
+
+							<h:outputLabel for="description" value="Descrição: " />
+							<p:inputTextarea value="#{taskBean.task.description}"
+								class="panel-input-description" id="description" rows="3"
+								autoResize="true" />
+							<h:outputText id="display" class="block" />
+						</h:panelGrid>
+						<h:panelGrid columns="4" rendered="#{taskBean.task ne null}">
+							<h:outputLabel for="taskResponsibleEnum" value="Responsável: " />
+							<p:selectOneMenu id="taskResponsibleEnum"
+								value="#{taskBean.task.taskResponsibleEnum}">
+								<f:selectItem itemLabel="Selecione" />
+								<f:selectItems value="#{taskBean.taskResponsibleEnums}"
+									var="taskResponsibleEnum"
+									itemLabel="#{taskResponsibleEnum.descricao}"
+									itemValue="#{taskResponsibleEnum}" />
+							</p:selectOneMenu>
+
+							<h:outputLabel for="taskPriorityLevel" value="Prioridade: " />
+							<p:selectOneMenu id="taskPriorityLevel"
+								value="#{taskBean.task.taskPriorityLevelEnum}">
+								<f:selectItem itemLabel="Selecione" />
+								<f:selectItems value="#{taskBean.taskPriorityLevelEnums}"
+									var="taskPriorityLevelEnum"
+									itemLabel="#{taskPriorityLevelEnum.descricao}"
+									itemValue="#{taskPriorityLevelEnum}" />
+							</p:selectOneMenu>
+						</h:panelGrid>
+						<h:panelGrid columns="2" rendered="#{taskBean.task ne null}">
+							<h:outputLabel for="deadLine" value="Deadline: " />
+							<p:datePicker class="field col-12 md:col-4" id="deadLine" showTime="true"
+								value="#{taskBean.task.deadline}" />
+						</h:panelGrid>
+
+						<div class="btn-cadastrar">
+							<p:commandButton class="create-task-btn" type="submit"
+								value="Cadastrar" icon="ui-icon-check"
+								actionListener="#{taskBean.createNewTask}"
+								update="tasksDataTable registerTaskModal"
+								action="task-list?faces-redirect=true"
+								oncomplete="PF('taskDialogWidgetVar').hide()" />
+						</div>
 					</p:dialog>
 				</div>
 				<div>
 					<p:commandButton class="create-task-btn" type="submit"
 						value="Adicionar Tarefa" icon="ui-icon-check"
-						action="task-creator?faces-redirect=true" />
+						actionListener="#{taskBean.prepareNewTask}"
+						oncomplete="PF('taskDialogWidgetVar').show()"
+						update="registerTaskModal" />
 				</div>
 			</h:form>
 		</p:panel>

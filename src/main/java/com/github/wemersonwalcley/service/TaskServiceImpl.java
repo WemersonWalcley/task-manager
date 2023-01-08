@@ -1,7 +1,6 @@
 package com.github.wemersonwalcley.service;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.inject.Inject;
 import com.github.wemersonwalcley.entity.Task;
@@ -23,11 +22,6 @@ public class TaskServiceImpl implements Serializable {
 	@Transactional
 	public void delete(Task task) {
 		taskRepository.delete(task);
-	}
-	
-	@Transactional
-	public List<Task> findAll() {
-		return taskRepository.findAll();
 	}
 
 }

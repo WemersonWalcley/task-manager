@@ -9,6 +9,7 @@ label {
 /*Apply to all table heads*/
 th, td {
 	text-align: center !important;
+	width: 183px;
 }
 
 .ui-tag{
@@ -19,8 +20,9 @@ th, td {
 }
 
 /*Apply to all combobox*/
-.ui-selectonemenu {
+.ui-selectonemenu, .hasDatepicker {
 	width: 205px !important;
+	height: 37px !important
 }
 
 /*Apply to all buttons*/
@@ -98,7 +100,7 @@ th, td {
 
 /*################Table configuration################*/
 .table {
-	margin-top: 80px;
+	margin-top: 35px;
 }
 
 .table .th-number, .th-title {
@@ -107,5 +109,49 @@ th, td {
 
 .create-task-btn {
 	float: right;
-	margin-top: 200px !important;
+	margin-top: 20px !important;
+}
+
+/*MODAL CONFIGURATIONS*/
+/* ################# Panel configurations #################*/
+.panel {
+	width: 70vw;
+	min-width: 380px;
+}
+
+.panel .panel-row-title, .panel-row-deadline {
+	display: flex;
+	flex-direction: row;
+	margin-bottom: 40px;
+	width: 100%;
+}
+
+.panel-title-label, .panel-description-label{
+	width: 150px;
+	text-align: right;
+	margin-top: 6px;
+}
+
+.panel-input-title{
+	margin-left: 20px;
+}
+
+.panel-input-description, .panel-input-datepicker{
+	margin-left: 20px;
+	display: flex;
+	flex-direction: column;
+	width: 640px !important;
+}
+
+.ui-panel-content{
+	padding: 30px !important;
+}
+
+.input-title, .input-textarea-description{
+	width: 55vw;
+}
+
+.btn-cadastrar{
+	display: flex;
+	justify-content: center;
 }

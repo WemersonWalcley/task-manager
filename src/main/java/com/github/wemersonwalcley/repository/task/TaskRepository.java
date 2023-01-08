@@ -13,10 +13,10 @@ public class TaskRepository implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
-	public TaskRepository() {}
-
 	@Inject
 	private EntityManager entityManager;
+	
+	public TaskRepository() {}
 	
 	public TaskRepository(EntityManager entityManager) {
 		this.entityManager = entityManager;
