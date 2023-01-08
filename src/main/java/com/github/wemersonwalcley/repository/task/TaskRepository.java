@@ -3,29 +3,32 @@ package com.github.wemersonwalcley.repository.task;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 import com.github.wemersonwalcley.entity.Task;
-import com.github.wemersonwalcley.enumerator.TaskPriorityLevel;
-import com.github.wemersonwalcley.enumerator.TaskResponsible;
-import com.github.wemersonwalcley.enumerator.TaskSituation;
-
 
 public class TaskRepository implements Serializable {
 
 	private static final long serialVersionUID = 1L;
+	
+	public TaskRepository() {}
 
+	@Inject
 	private EntityManager entityManager;
+	
+	public TaskRepository(EntityManager entityManager) {
+		this.entityManager = entityManager;
+	}
 
 	public Task findById(Long id) {
 		return entityManager.find(Task.class, id);
 	}
 
 	public List<Task> findAll(){
-		TypedQuery<Task> query = entityManager.createQuery("SELECT e FROM Task e", Task.class);
-		return query.getResultList();
+		return entityManager.createQuery("from Task e", Task.class).getResultList();
+
 	}
 	
 	public List<Task> findAllByFilter(String title){

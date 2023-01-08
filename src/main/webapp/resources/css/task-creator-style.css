@@ -1,37 +1,48 @@
 /* ################# General configurations #################*/
-.ui-inputfield{
-	width: 55vw;
+.ui-selectonemenu-label{
+	width: 203px !important;
+}
+
+.ui-button {
+	padding-right: 0.8rem !important;
+}
+
+.ui-tag{
+	font-size: 1.4rem !important;	
+	width: 40vw;
+	min-width: 300px;
+	min-height: 40px;
 }
 
 .header {
-	background-color: #2196f3;
-	width: 100%;
-	color: white;
-	font-size: 36px;
-	height: 5vh;
-	text-align: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	height: 80px;
 }
 
 .body {
 	justify-content: center;
 	align-items: center;
 	display: flex;
-	height: 90vh;
+	height: 85vh;
 }
 
 /* ################# Panel configurations #################*/
 .ui-panel-content {
-	height: 70vh;
+	height: 650px;
 }
 
 .panel {
-	width: 70%;
+	width: 70vw;
+	min-width: 380px;
 }
 
-.panel .panel-row-title {
+.panel .panel-row-title, .panel-row-deadline {
 	display: flex;
 	flex-direction: row;
-	margin-bottom: 20px;
+	margin-bottom: 40px;
 	width: 100%;
 }
 
@@ -45,7 +56,7 @@
 	margin-left: 20px;
 }
 
-.panel-input-description{
+.panel-input-description, .panel-input-datepicker{
 	margin-left: 20px;
 	display: flex;
 	flex-direction: column;
@@ -53,4 +64,14 @@
 
 .ui-panel-content{
 	padding: 30px !important;
+}
+
+.input-title, .input-textarea-description{
+	width: 55vw;
+}
+
+.btn-cadastrar{
+	display: flex;
+	justify-content: center;
+	margin-top: 18vh;
 }

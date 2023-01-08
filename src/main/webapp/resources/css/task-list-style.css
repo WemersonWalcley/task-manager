@@ -1,5 +1,4 @@
 @charset "UTF-8";
-
 /*################Components configurations################*/
 
 /*Apply to all labels*/
@@ -8,8 +7,15 @@ label {
 }
 
 /*Apply to all table heads*/
-th{
+th, td {
 	text-align: center !important;
+}
+
+.ui-tag{
+	font-size: 1.4rem !important;	
+	width: 40vw;
+	min-width: 300px;
+	min-height: 40px;
 }
 
 /*Apply to all combobox*/
@@ -24,29 +30,32 @@ th{
 
 /*Apply to panel content*/
 .ui-panel-content {
-	height: 70vh;
+	height: 650px;
 }
 
 /* ################Main page content configurations################*/
 .header {
-	background-color: #2196f3;
-	width: 100%;
-	color: white;
-	font-size: 36px;
-	height: 5vh;
-	text-align: center;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	height: 80px;
+	max-height: 90px;
 }
 
 .body {
+	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	display: flex;
-	height: 90vh;
+	height: 85vh;
 }
 
 /* ################General panel configurations################ */
 .panel {
-	width: 70%;
+	width: 70vw;
+	min-width: 380px;
 }
 
 .panel .panel-body {
@@ -92,12 +101,11 @@ th{
 	margin-top: 80px;
 }
 
-.table .th-number, .th-title{
+.table .th-number, .th-title {
 	width: 150px;
 }
 
-.create-task-btn{
+.create-task-btn {
 	float: right;
 	margin-top: 200px !important;
 }
-

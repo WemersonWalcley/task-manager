@@ -1,92 +1,111 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3c.org/1999/xhtml"
-	xmlns:h="http://java.sun.com/jsf/html"
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
 	xmlns:p="http://primefaces.org/ui"
-	xmlns:f="http://java.sun.com/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-	<meta charset="UTF-8" />
+	<meta charset="UTF-8" name="viewport"
+		content="width=device-width, initial-scale=1.0" />
 	<title>Gerenciador de Tarefas</title>
 
 	<h:outputStylesheet library="css" name="task-list-style.css" />
 
+	<f:metadata>
+		<f:viewAction action="#{taskBean.listarTasks}" />
+	</f:metadata>
+
 </h:head>
 
 <h:body>
-	<div class="header">GERENCIADOR DE TAREFAS</div>
+
+	<div class="header">
+		<p:tag styleClass="mr-2" value="Gerenciador de Tarefas"></p:tag>
+	</div>
 
 	<div class="body">
 		<p:panel class="panel" header="Listagem de Tarefas">
-			<div class="panel-body">
-				<div class="panel-label-column">
-					<h:outputLabel for="title" value="Número: " />
-					<h:outputLabel for="title" value="Título/Descrição: " />
-					<h:outputLabel for="title" value="Responsável: " />
-				</div>
-				<div class="panel-input-column">
-					<p:inputText id="input-number-filter" value="#{bean.firstname}"
-						label="Firstname" />
-					<p:inputText id="input-title-filter" value="#{bean.firstname}"
-						label="Firstname" />
-					<div class="panel-input-column-row">
-						<div>
-							<p:selectOneMenu id="DEFINIR_ID_1">
-								<p:ajax update="@this" process="@this" />
-								<f:selectItem itemLabel="Select" itemValue="#{null}"
-									noSelectionOption="true" />
-								<f:selectItem itemLabel="Option1" itemValue="Option1" />
-								<f:selectItem itemLabel="Option2" itemValue="Option2" />
-								<f:selectItem itemLabel="Option3" itemValue="Option3" />
-							</p:selectOneMenu>
-						</div>
-						<div>
-							<h:outputLabel for="@next" value="Situação: " />
-							<p:selectOneMenu id="DEFINIR_ID_2">
-								<p:ajax update="@this" process="@this" />
-								<f:selectItem itemLabel="Select" itemValue="#{null}"
-									noSelectionOption="true" />
-								<f:selectItem itemLabel="Option1" itemValue="Option1" />
-								<f:selectItem itemLabel="Option2" itemValue="Option2" />
-								<f:selectItem itemLabel="Option3" itemValue="Option3" />
-							</p:selectOneMenu>
-						</div>
-						<div>
-							<p:commandButton type="button" value="Buscar Tarefas"
-								icon="ui-icon-check" />
+			<h:form>
+				<div class="panel-body">
+					<div class="panel-label-column">
+						<h:outputLabel value="Número: " />
+						<h:outputLabel value="Título/Descrição: " />
+						<h:outputLabel value="Responsável: " />
+					</div>
+					<div class="panel-input-column">
+						<p:inputText id="input-number-filter" label="Firstname" />
+						<p:inputText id="input-title-filter" label="Firstname" />
+						<div class="panel-input-column-row">
+							<div>
+								<p:selectOneMenu id="DEFINIR_ID_1">
+									<p:ajax update="@this" process="@this" />
+									<f:selectItem itemLabel="Select" itemValue="#{null}"
+										noSelectionOption="true" />
+									<f:selectItem itemLabel="Option1" itemValue="Option1" />
+									<f:selectItem itemLabel="Option2" itemValue="Option2" />
+									<f:selectItem itemLabel="Option3" itemValue="Option3" />
+								</p:selectOneMenu>
+							</div>
+							<div>
+								<h:outputLabel value="Situação: " />
+								<p:selectOneMenu id="DEFINIR_ID_2">
+									<p:ajax update="@this" process="@this" />
+									<f:selectItem itemLabel="Select" itemValue="#{null}"
+										noSelectionOption="true" />
+									<f:selectItem itemLabel="Option1" itemValue="Option1" />
+									<f:selectItem itemLabel="Option2" itemValue="Option2" />
+									<f:selectItem itemLabel="Option3" itemValue="Option3" />
+								</p:selectOneMenu>
+							</div>
+							<div>
+								<p:commandButton type="button" value="Buscar Tarefas"
+									icon="ui-icon-check" />
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="table">
-				<h:form>
-					<div class="card">
-						<p:dataTable var="product" value="#{dtBasicView.products}"
-							showGridlines="true">
-							<p:column class="th-number" headerText="Número">
-								<h:outputText value="#{product.code}" />
-							</p:column>
-
-							<p:column class="th-title" headerText="Título">
-								<h:outputText value="#{product.name}" />
-							</p:column>
-
-							<p:column class="th-responsible" headerText="Responsável">
-								<h:outputText value="#{product.category}" />
-							</p:column>
-
-							<p:column headerText="Ações">
-								<h:outputText value="#{product.quantity}" />
-							</p:column>
-						</p:dataTable>
-					</div>
-				</h:form>
-			</div>
-			<div>
-				<h:form>
+				<div class="table">
+					<p:dataTable value="#{taskBean.tasks}" var="task" paginator="true" rows="2" paginatorPosition="bottom">
+						<p:column headerText="Número">
+							<h:outputText value="#{task.id}" />
+						</p:column>
+						<p:column headerText="Título">
+							<h:outputText value="#{task.title}" />
+						</p:column>
+						<p:column headerText="Responsável">
+							<h:outputText value="#{task.taskResponsible}" />
+						</p:column>
+						<p:column headerText="Situação">
+							<h:outputText value="#{task.taskSituation}" />
+						</p:column>
+						<p:column exportable="false">
+							<p:commandButton icon="pi pi-pencil"
+								update=""
+								oncomplete="PF('manageProductDialog').show()"
+								styleClass="edit-button rounded-button ui-button-success"
+								process="@this">
+								<f:setPropertyActionListener value="#{product}"
+									target="#{crudView.selectedProduct}" />
+								<p:resetInput target=":dialogs:manage-product-content" />
+							</p:commandButton>
+							<p:commandButton class="ui-button-warning rounded-button"
+								icon="pi pi-trash" process="@this"
+								oncomplete="PF('deleteProductDialog').show()">
+								<f:setPropertyActionListener value="#{product}"
+									target="#{crudView.selectedProduct}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+					
+					<p:dialog header="Nova Task" widgetVar="taskDialogWidgetVar">
+					
+					</p:dialog>
+				</div>
+				<div>
 					<p:commandButton class="create-task-btn" type="submit"
 						value="Adicionar Tarefa" icon="ui-icon-check"
 						action="task-creator?faces-redirect=true" />
-				</h:form>
-			</div>
+				</div>
+			</h:form>
 		</p:panel>
 	</div>
 

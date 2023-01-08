@@ -1,6 +1,6 @@
 package com.github.wemersonwalcley.enumerator;
 
-public enum TaskResponsible {
+public enum TaskResponsibleEnum {
 	WEMERSON,
 	WALLAS,
 	RICARDO

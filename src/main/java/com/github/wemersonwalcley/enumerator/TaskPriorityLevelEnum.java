@@ -1,7 +1,9 @@
 package com.github.wemersonwalcley.enumerator;
 
-public enum TaskPriorityLevel {
+public enum TaskPriorityLevelEnum {
 	HIGH,
 	MEDIUM,
-	LOW
+	LOW;
+	
+
 }

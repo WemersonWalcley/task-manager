@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
@@ -12,43 +13,51 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
-import com.github.wemersonwalcley.enumerator.TaskPriorityLevel;
-import com.github.wemersonwalcley.enumerator.TaskResponsible;
-import com.github.wemersonwalcley.enumerator.TaskSituation;
+import com.github.wemersonwalcley.enumerator.TaskPriorityLevelEnum;
+import com.github.wemersonwalcley.enumerator.TaskResponsibleEnum;
+import com.github.wemersonwalcley.enumerator.TaskSituationEnum;
 
 @Table(name = "tb_task")
+@Entity
 public class Task implements Serializable {
-
+	
 	private static final long serialVersionUID = 1L;
+	
+	public Task(){}
+
+	public Task(String title, TaskResponsibleEnum taskResponsibleEnum, TaskSituationEnum taskSituationEnum,
+			TaskPriorityLevelEnum taskPriorityLevelEnum, Date deadline) {
+		super();
+		this.title = title;
+		this.taskResponsibleEnum = taskResponsibleEnum;
+		this.taskSituationEnum = taskSituationEnum;
+		this.taskPriorityLevelEnum = taskPriorityLevelEnum;
+		this.deadline = deadline;
+	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
-	@NotEmpty(message = "Campo título é obrigatório.")
 	private String title;
 	
-	@NotEmpty(message = "Campo descrição é obrigatório.")
 	private String description;
 	
 	@Column(name = "responsible")
-	@NotEmpty(message = "Campo responsável é obrigatório.")
-	private TaskResponsible taskResponsible;
+	@Enumerated(EnumType.STRING)
+	private TaskResponsibleEnum taskResponsibleEnum;
 	
 	@Column(name = "situation")
-	@NotEmpty(message = "Campo responsável é obrigatório.")
-	private TaskSituation taskSituation;
+	@Enumerated(EnumType.STRING)
+	private TaskSituationEnum taskSituationEnum;
 
-	@NotEmpty(message = "Campo data é obrigatório.")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date deadline;
-	
 	@Column(name = "priority_level")
 	@Enumerated(EnumType.STRING)
-	private TaskPriorityLevel taskPriorityLevel;
+	private TaskPriorityLevelEnum taskPriorityLevelEnum;
+	
+	@Temporal(TemporalType.TIMESTAMP)
+	private Date deadline;
+
 
 	public Long getId() {
 		return id;
@@ -74,20 +83,20 @@ public class Task implements Serializable {
 		this.description = description;
 	}
 
-	public TaskResponsible getTaskResponsible() {
-		return taskResponsible;
+	public TaskResponsibleEnum getTaskResponsible() {
+		return taskResponsibleEnum;
 	}
 
-	public void setTaskResponsible(TaskResponsible taskResponsible) {
-		this.taskResponsible = taskResponsible;
+	public void setTaskResponsibleEnum(TaskResponsibleEnum taskResponsibleEnum) {
+		this.taskResponsibleEnum = taskResponsibleEnum;
 	}
 
-	public TaskSituation getTaskSituation() {
-		return taskSituation;
+	public TaskSituationEnum getTaskSituation() {
+		return taskSituationEnum;
 	}
 
-	public void setTaskSituation(TaskSituation taskSituation) {
-		this.taskSituation = taskSituation;
+	public void setTaskSituationEnum(TaskSituationEnum taskSituationEnum) {
+		this.taskSituationEnum = taskSituationEnum;
 	}
 
 	public Date getDeadline() {
@@ -98,12 +107,19 @@ public class Task implements Serializable {
 		this.deadline = deadline;
 	}
 
-	public TaskPriorityLevel getTaskPriorityLevel() {
-		return taskPriorityLevel;
+	public TaskPriorityLevelEnum getTaskPriorityLevel() {
+		return taskPriorityLevelEnum;
 	}
 
-	public void setTaskPriorityLevel(TaskPriorityLevel taskPriorityLevel) {
-		this.taskPriorityLevel = taskPriorityLevel;
+	public void setTaskPriorityLevelEnum(TaskPriorityLevelEnum taskPriorityLevelEnum) {
+		this.taskPriorityLevelEnum = taskPriorityLevelEnum;
+	}
+	
+	@Override
+	public String toString() {
+		return "Task [id=" + id + ", title=" + title + ", description=" + description + ", taskResponsibleEnum="
+				+ taskResponsibleEnum + ", taskSituationEnum=" + taskSituationEnum + ", taskPriorityLevelEnum="
+				+ taskPriorityLevelEnum + ", deadline=" + deadline + "]";
 	}
 
 }

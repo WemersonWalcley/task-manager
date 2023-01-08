@@ -1,4 +1,4 @@
-package util;
+package com.github.wemersonwalcley.util;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.context.RequestScoped;
@@ -14,7 +14,7 @@ public class EntityManagerProducer {
 	private EntityManagerFactory entityManagerFactory;
 	
 	public EntityManagerProducer () {
-		this.entityManagerFactory = Persistence.createEntityManagerFactory("TaskManager");
+		this.entityManagerFactory = Persistence.createEntityManagerFactory("TaskManagerPU");
 	}
 	
 	@Produces

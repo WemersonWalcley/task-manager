@@ -1,4 +1,4 @@
-package util;
+package com.github.wemersonwalcley.util;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

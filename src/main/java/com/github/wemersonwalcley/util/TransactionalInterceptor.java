@@ -1,7 +1,8 @@
-package util;
+package com.github.wemersonwalcley.util;
 
 import java.io.Serializable;
 import javax.inject.Inject;
+import javax.interceptor.AroundInvoke;
 import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 import javax.persistence.EntityManager;
@@ -16,6 +17,7 @@ public class TransactionalInterceptor implements Serializable {
 	@Inject
 	private EntityManager manager;
 	
+	@AroundInvoke
 	public Object invoke(InvocationContext context) throws Exception {
 		EntityTransaction trx = manager.getTransaction();
 		boolean creator = false;
