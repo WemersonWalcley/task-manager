@@ -9,7 +9,7 @@ label {
 /*Apply to all table heads*/
 th, td {
 	text-align: center !important;
-	width: 183px;
+	width: 121px;
 }
 
 .ui-tag{
@@ -21,7 +21,7 @@ th, td {
 
 /*Apply to all combobox*/
 .ui-selectonemenu, .hasDatepicker {
-	width: 205px !important;
+	width: 175px !important;
 	height: 37px !important
 }
 
@@ -33,6 +33,11 @@ th, td {
 /*Apply to panel content*/
 .ui-panel-content {
 	height: 650px;
+}
+
+.ui-datatable{
+	margin-top: 40px;
+	height: 350px;
 }
 
 /* ################Main page content configurations################*/
@@ -109,7 +114,6 @@ th, td {
 
 .create-task-btn {
 	float: right;
-	margin-top: 20px !important;
 }
 
 /*MODAL CONFIGURATIONS*/
@@ -136,11 +140,8 @@ th, td {
 	margin-left: 20px;
 }
 
-.panel-input-description, .panel-input-datepicker{
-	margin-left: 20px;
-	display: flex;
-	flex-direction: column;
-	width: 640px !important;
+.title{
+	width: 476px !important;
 }
 
 .ui-panel-content{
@@ -154,4 +155,5 @@ th, td {
 .btn-cadastrar{
 	display: flex;
 	justify-content: center;
+	margin-top: 20px;
 }

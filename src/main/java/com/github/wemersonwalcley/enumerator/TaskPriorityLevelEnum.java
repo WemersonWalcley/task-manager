@@ -1,9 +1,10 @@
 package com.github.wemersonwalcley.enumerator;
 
 public enum TaskPriorityLevelEnum {
-	HIGH("Urgente"),
-	MEDIUM("Média"),
-	LOW("Baixa");
+	EMPTY_PRIORITY("Selecione"),
+	ALTA("Urgente"),
+	MEDIA("Média"),
+	BAIXA("Baixa");
 	
 	private String descricao;
 	

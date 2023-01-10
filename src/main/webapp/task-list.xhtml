@@ -24,128 +24,219 @@
 
 	<div class="body">
 		<p:panel class="panel" header="Listagem de Tarefas">
-			<h:form>
+			<h:form id="form">
+				<p:growl id="messages" showDetail="true" />
 				<div class="panel-body">
 					<div class="panel-label-column">
 						<h:outputLabel value="Número: " />
-						<h:outputLabel value="Título/Descrição: " />
+						<h:outputLabel value="Título: " />
 						<h:outputLabel value="Responsável: " />
 					</div>
 					<div class="panel-input-column">
-						<p:inputText id="input-number-filter" label="Firstname" />
-						<p:inputText id="input-title-filter" label="Firstname" />
+						<p:inputNumber placeholder="Número" id="input-number-filter"
+							label="Firstname" value="#{taskBean.idFilter}" />
+						<p:inputText id="input-title-filter" placeholder="Título"
+							label="Firstname" value="#{taskBean.titleFilter}" />
 						<div class="panel-input-column-row">
 							<div>
-								<p:selectOneMenu id="DEFINIR_ID_1">
-									<p:ajax update="@this" process="@this" />
-									<f:selectItem itemLabel="Select" itemValue="#{null}"
-										noSelectionOption="true" />
-									<f:selectItem itemLabel="Option1" itemValue="Option1" />
-									<f:selectItem itemLabel="Option2" itemValue="Option2" />
-									<f:selectItem itemLabel="Option3" itemValue="Option3" />
+								<p:selectOneMenu id="responsibleFilter"
+									value="#{taskBean.responsibleFilter}">
+									<f:selectItems value="#{taskBean.taskResponsibleEnums}"
+										var="taskResponsibleEnum"
+										itemLabel="#{taskResponsibleEnum.descricao}"
+										itemValue="#{taskResponsibleEnum}" />
 								</p:selectOneMenu>
 							</div>
 							<div>
-								<h:outputLabel value="Situação: " />
-								<p:selectOneMenu id="DEFINIR_ID_2">
-									<p:ajax update="@this" process="@this" />
-									<f:selectItem itemLabel="Select" itemValue="#{null}"
-										noSelectionOption="true" />
-									<f:selectItem itemLabel="Option1" itemValue="Option1" />
-									<f:selectItem itemLabel="Option2" itemValue="Option2" />
-									<f:selectItem itemLabel="Option3" itemValue="Option3" />
+								<h:outputLabel value="Prioridade: " />
+								<p:selectOneMenu id="priorityFilter"
+									value="#{taskBean.priorityFilter}">
+									<f:selectItems value="#{taskBean.taskPriorityLevelEnums}"
+										var="taskPriorityLevelEnum"
+										itemLabel="#{taskPriorityLevelEnum.descricao}"
+										itemValue="#{taskPriorityLevelEnum}" />
 								</p:selectOneMenu>
 							</div>
 							<div>
-								<p:commandButton type="button" value="Buscar Tarefas"
-									icon="ui-icon-check" />
+								<p:commandButton type="submit"
+									actionListener="#{taskBean.search}" update="tasksDataTable"
+									value="Buscar Tarefas" icon="ui-icon-check" />
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="table">
-					<p:dataTable id="tasksDataTable" value="#{taskBean.tasks}"
-						var="task" paginator="true" rows="3" paginatorPosition="bottom">
-						<p:column headerText="Número">
-							<h:outputText value="#{task.id}" />
-						</p:column>
-						<p:column headerText="Título">
-							<h:outputText value="#{task.title}" />
-						</p:column>
-						<p:column headerText="Responsável">
-							<h:outputText value="#{task.taskResponsibleEnum}" />
-						</p:column>
-						<p:column headerText="Situação">
-							<h:outputText value="#{task.taskSituationEnum}" />
-						</p:column>
-						<p:column exportable="false">
-							<p:commandButton icon="pi pi-pencil" update=""
-								oncomplete="PF('manageProductDialog').show()"
-								styleClass="edit-button rounded-button ui-button-success"
-								process="@this">
-								<f:setPropertyActionListener value="#{product}"
-									target="#{crudView.selectedProduct}" />
-								<p:resetInput target=":dialogs:manage-product-content" />
-							</p:commandButton>
-							<p:commandButton class="ui-button-warning rounded-button"
-								icon="pi pi-trash" process="@this"
-								oncomplete="PF('deleteProductDialog').show()">
-								<f:setPropertyActionListener value="#{product}"
-									target="#{crudView.selectedProduct}" />
-							</p:commandButton>
-						</p:column>
-					</p:dataTable>
-					<p:dialog id="registerTaskModal" header="Cadastrar Tarefa"
-						widgetVar="taskDialogWidgetVar" modal="true" resizable="false"
-						closeOnEscape="true" draggable="false">
-						<h:panelGrid columns="2" rendered="#{taskBean.task ne null}">
-							<h:outputLabel for="title" value="Título: " />
-							<p:inputText id="title" value="#{taskBean.task.title}" size="80"
-								label="Firstname" />
+				<p:dataTable id="tasksDataTable" value="#{taskBean.taskList}"
+					var="task" stripedRows="true" paginator="true" rows="3"
+					paginatorPosition="bottom">
+					<p:column headerText="Número">
+						<h:outputText value="#{task.id}" />
+					</p:column>
+					<p:column headerText="Título">
+						<h:outputText value="#{task.title}" />
+					</p:column>
+					<p:column headerText="Responsável">
+						<h:outputText value="#{task.taskResponsibleEnum}" />
+					</p:column>
+					<p:column headerText="Prioridade">
+						<h:outputText value="#{task.taskPriorityLevelEnum}" />
+					</p:column>
+					<p:column headerText="Descrição">
+						<h:outputText value="#{task.description}" />
+					</p:column>
+					<p:column headerText="DeadLine">
+						<h:outputText value="#{task.deadline}" />
+					</p:column>
+					<p:column headerText="Ações" exportable="false">
+						<p:commandButton icon="pi pi-pencil"
+							update=":dialogs:edit-task-content"
+							actionListener="#{taskBean.prepareEditTask}"
+							oncomplete="PF('editTaskDialog').show()"
+							styleClass="edit-button rounded-button ui-button-secondary"
+							process="@this">
+							<f:setPropertyActionListener value="#{task}"
+								target="#{taskBean.selectedTask}" />
+							<p:resetInput target=":dialogs:edit-task-content" />
+						</p:commandButton>
+						<p:commandButton class="ui-button-danger rounded-button"
+							icon="pi pi-trash" process="@this"
+							oncomplete="PF('deleteTaskDialog').show()">
+							<f:setPropertyActionListener value="#{task}"
+								target="#{taskBean.selectedTask}" />
+						</p:commandButton>
+						<p:commandButton class="ui-button-success rounded-button"
+							icon="pi pi-check-circle" process="@this"
+							oncomplete="PF('finishTaskDialog').show()">
+							<f:setPropertyActionListener value="#{task}"
+								target="#{taskBean.selectedTask}" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
 
-							<h:outputLabel for="description" value="Descrição: " />
-							<p:inputTextarea value="#{taskBean.task.description}"
-								class="panel-input-description" id="description" rows="3"
-								autoResize="true" />
+			<h:form id="dialogs">
+				<p:dialog id="edit-task-content" header="Detalhes da tarefa"
+					showEffect="fade" modal="true" widgetVar="editTaskDialog"
+					responsive="true">
+					<h:panelGrid columns="2"
+						rendered="#{not empty taskBean.selectedTask}">
+						<p:outputLabel for="edit-title">Title</p:outputLabel>
+						<p:inputText class="title" id="edit-title"
+							value="#{taskBean.selectedTask.title}" required="true" />
+
+						<p:outputLabel id="edit-description" for="edit-description">Description</p:outputLabel>
+						<p:inputTextarea counter="display" maxlength="41"
+							counterTemplate="{0} characters remaining." cols="60" rows="1"
+							value="#{taskBean.selectedTask.description}" />
+						<div style="display: flex; flex-direction: row">
 							<h:outputText id="display" class="block" />
-						</h:panelGrid>
-						<h:panelGrid columns="4" rendered="#{taskBean.task ne null}">
-							<h:outputLabel for="taskResponsibleEnum" value="Responsável: " />
-							<p:selectOneMenu id="taskResponsibleEnum"
-								value="#{taskBean.task.taskResponsibleEnum}">
-								<f:selectItem itemLabel="Selecione" />
-								<f:selectItems value="#{taskBean.taskResponsibleEnums}"
-									var="taskResponsibleEnum"
-									itemLabel="#{taskResponsibleEnum.descricao}"
-									itemValue="#{taskResponsibleEnum}" />
-							</p:selectOneMenu>
-
-							<h:outputLabel for="taskPriorityLevel" value="Prioridade: " />
-							<p:selectOneMenu id="taskPriorityLevel"
-								value="#{taskBean.task.taskPriorityLevelEnum}">
-								<f:selectItem itemLabel="Selecione" />
-								<f:selectItems value="#{taskBean.taskPriorityLevelEnums}"
-									var="taskPriorityLevelEnum"
-									itemLabel="#{taskPriorityLevelEnum.descricao}"
-									itemValue="#{taskPriorityLevelEnum}" />
-							</p:selectOneMenu>
-						</h:panelGrid>
-						<h:panelGrid columns="2" rendered="#{taskBean.task ne null}">
-							<h:outputLabel for="deadLine" value="Deadline: " />
-							<p:datePicker class="field col-12 md:col-4" id="deadLine" showTime="true"
-								value="#{taskBean.task.deadline}" />
-						</h:panelGrid>
-
-						<div class="btn-cadastrar">
-							<p:commandButton class="create-task-btn" type="submit"
-								value="Cadastrar" icon="ui-icon-check"
-								actionListener="#{taskBean.createNewTask}"
-								update="tasksDataTable registerTaskModal"
-								action="task-list?faces-redirect=true"
-								oncomplete="PF('taskDialogWidgetVar').hide()" />
 						</div>
-					</p:dialog>
-				</div>
+					</h:panelGrid>
+					<h:panelGrid columns="4"
+						rendered="#{not empty taskBean.selectedTask}">
+
+						<p:outputLabel for="responsible">Responsável</p:outputLabel>
+						<p:selectOneMenu id="responsible"
+							value="#{taskBean.selectedTask.taskResponsibleEnum}">
+							<f:selectItems value="#{taskBean.taskResponsibleEnums}"
+								var="taskResponsibleEnum"
+								itemLabel="#{taskResponsibleEnum.descricao}"
+								itemValue="#{taskResponsibleEnum}" />
+						</p:selectOneMenu>
+
+
+						<p:outputLabel for="priority">Prioridade</p:outputLabel>
+						<p:selectOneMenu id="priority"
+							value="#{taskBean.selectedTask.taskPriorityLevelEnum}">
+							<f:selectItems value="#{taskBean.taskPriorityLevelEnums}"
+								var="taskPriorityLevelEnum"
+								itemLabel="#{taskPriorityLevelEnum.descricao}"
+								itemValue="#{taskPriorityLevelEnum}" />
+						</p:selectOneMenu>
+
+					</h:panelGrid>
+					<f:facet name="footer">
+						<p:commandButton value="Save" icon="pi pi-check"
+							actionListener="#{taskBean.saveEditedTask}"
+							update="edit-task-content" process="edit-task-content @this"
+							action="task-list?faces-redirect=true" />
+						<p:commandButton value="Cancel" icon="pi pi-times"
+							onclick="PF('editTaskDialog').hide()" class="ui-button-secondary"
+							type="button" />
+					</f:facet>
+				</p:dialog>
+
+				<p:confirmDialog widgetVar="deleteTaskDialog" showEffect="fade"
+					width="300" message="Deletar a tarefa?" header="Confirmar"
+					severity="warn">
+					<p:commandButton value="Yes" icon="pi pi-check"
+						actionListener="#{taskBean.deleteTask}" process="@this"
+						oncomplete="PF('deleteTaskDialog').hide()"
+						action="task-list?faces-redirect=true" />
+					<p:commandButton value="No" type="button"
+						styleClass="ui-button-secondary" icon="pi pi-times"
+						onclick="PF('deleteTaskDialog').hide()" />
+				</p:confirmDialog>
+				<p:dialog id="registerTaskModal" header="Cadastrar Tarefa"
+					widgetVar="taskDialogWidgetVar" modal="true" resizable="false"
+					closeOnEscape="true" draggable="false">
+					<h:panelGrid columns="2" rendered="#{taskBean.task ne null}">
+						<h:outputLabel for="title" value="Título: " />
+						<p:inputText class="title" id="title"
+							value="#{taskBean.task.title}" size="58" label="Firstname" />
+
+						<h:outputLabel for="description" value="Descrição: " />
+						<p:inputTextarea value="#{taskBean.task.description}"
+							counter="displayCount" maxlength="41" cols="60"
+							counterTemplate="{0} characters remaining." id="description"
+							rows="1" autoResize="true" />
+						<div style="display: flex; flex-direction: row;">
+							<h:outputText id="displayCount" class="block" />
+						</div>
+					</h:panelGrid>
+					<h:panelGrid columns="4" rendered="#{taskBean.task ne null}">
+						<h:outputLabel for="taskResponsibleEnum" value="Responsável: " />
+						<p:selectOneMenu id="taskResponsibleEnum"
+							value="#{taskBean.task.taskResponsibleEnum}">
+							<f:selectItems value="#{taskBean.taskResponsibleEnums}"
+								var="taskResponsibleEnum"
+								itemLabel="#{taskResponsibleEnum.descricao}"
+								itemValue="#{taskResponsibleEnum}" />
+						</p:selectOneMenu>
+
+						<h:outputLabel for="taskPriorityLevel" value="Prioridade: " />
+						<p:selectOneMenu id="taskPriorityLevel"
+							value="#{taskBean.task.taskPriorityLevelEnum}">
+							<f:selectItems value="#{taskBean.taskPriorityLevelEnums}"
+								var="taskPriorityLevelEnum"
+								itemLabel="#{taskPriorityLevelEnum.descricao}"
+								itemValue="#{taskPriorityLevelEnum}" />
+						</p:selectOneMenu>
+					</h:panelGrid>
+					<h:panelGrid columns="2" rendered="#{taskBean.task ne null}">
+						<h:outputLabel for="deadLine" value="Deadline: " />
+						<p:datePicker class="field col-12 md:col-4" id="deadLine"
+							showTime="true" value="#{taskBean.task.deadline}" />
+					</h:panelGrid>
+
+					<div class="btn-cadastrar">
+						<p:commandButton class="create-task-btn" type="submit"
+							value="Cadastrar" icon="ui-icon-check"
+							actionListener="#{taskBean.createNewTask}"
+							action="task-list?faces-redirect=true"
+							oncomplete="PF('taskDialogWidgetVar').hide()" />
+					</div>
+				</p:dialog>
+				<p:confirmDialog widgetVar="finishTaskDialog" showEffect="fade"
+					width="300" message="Concluir a tarefa?" header="Confirmar"
+					severity="warn">
+					<p:commandButton value="Sim" icon="pi pi-check"
+						actionListener="#{taskBean.finishTask}" process="@this"
+						oncomplete="PF('finishTaskDialog').hide()"
+						action="task-list?faces-redirect=true" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-button-secondary" icon="pi pi-times"
+						onclick="PF('finishTaskDialog').hide()" />
+				</p:confirmDialog>
 				<div>
 					<p:commandButton class="create-task-btn" type="submit"
 						value="Adicionar Tarefa" icon="ui-icon-check"
