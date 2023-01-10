@@ -11,6 +11,9 @@
   <li>Java JDK versão 8 como linguagem de programação</li>
   <li>Eclipse IDE</li>
   <li>JSF (Primefaces)</li>  
+  <li>Tomcat como web container</li> 
+  <li>JPA</li>
+  <li>PostgreSQL</li>
   <li>Maven como gerenciador de dependências</li>
 </ul> 
 
