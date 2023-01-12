@@ -25,7 +25,7 @@
 	<div class="body">
 		<p:panel class="panel" header="Listagem de Tarefas">
 			<h:form id="form">
-				<p:growl id="messages" showDetail="true" />
+				<p:growl id="messages" />
 				<div class="panel-body">
 					<div class="panel-label-column">
 						<h:outputLabel value="Número: " />
@@ -35,12 +35,15 @@
 					<div class="panel-input-column">
 						<p:inputNumber placeholder="Número" id="input-number-filter"
 							label="Firstname" value="#{taskBean.idFilter}" />
-						<p:inputText id="input-title-filter" placeholder="Título"
-							label="Firstname" value="#{taskBean.titleFilter}" />
+						<p:inputText maxlength="25" id="input-title-filter"
+							placeholder="Título" label="Firstname"
+							value="#{taskBean.titleFilter}" />
 						<div class="panel-input-column-row">
 							<div>
 								<p:selectOneMenu id="responsibleFilter"
 									value="#{taskBean.responsibleFilter}">
+									<f:selectItem itemLabel="Selecione" itemValue=""
+										noSelectionOption="true" />
 									<f:selectItems value="#{taskBean.taskResponsibleEnums}"
 										var="taskResponsibleEnum"
 										itemLabel="#{taskResponsibleEnum.descricao}"
@@ -51,6 +54,8 @@
 								<h:outputLabel value="Prioridade: " />
 								<p:selectOneMenu id="priorityFilter"
 									value="#{taskBean.priorityFilter}">
+									<f:selectItem itemLabel="Selecione" itemValue=""
+										noSelectionOption="true" />
 									<f:selectItems value="#{taskBean.taskPriorityLevelEnums}"
 										var="taskPriorityLevelEnum"
 										itemLabel="#{taskPriorityLevelEnum.descricao}"
@@ -68,25 +73,28 @@
 				<p:dataTable id="tasksDataTable" value="#{taskBean.taskList}"
 					var="task" stripedRows="true" paginator="true" rows="3"
 					paginatorPosition="bottom">
-					<p:column headerText="Número">
+					<p:column style="width: 15px;" headerText="Número">
 						<h:outputText value="#{task.id}" />
 					</p:column>
-					<p:column headerText="Título">
+					<p:column style="width: 88px;" headerText="Título">
 						<h:outputText value="#{task.title}" />
-					</p:column>
-					<p:column headerText="Responsável">
-						<h:outputText value="#{task.taskResponsibleEnum}" />
-					</p:column>
-					<p:column headerText="Prioridade">
-						<h:outputText value="#{task.taskPriorityLevelEnum}" />
 					</p:column>
 					<p:column headerText="Descrição">
 						<h:outputText value="#{task.description}" />
 					</p:column>
-					<p:column headerText="DeadLine">
-						<h:outputText value="#{task.deadline}" />
+					<p:column style="width: 45px;" headerText="Responsável">
+						<h:outputText value="#{task.taskResponsibleEnum}" />
 					</p:column>
-					<p:column headerText="Ações" exportable="false">
+					<p:column style="width: 45px;" headerText="Prioridade">
+						<h:outputText value="#{task.taskPriorityLevelEnum.descricao}" />
+					</p:column>
+					<p:column style="width: 42px;" headerText="DeadLine">
+						<h:outputText value="#{task.deadline}">
+							<f:convertDateTime pattern="dd/MM/yyyy HH:mm" timeZone="GMT-03:00" />
+						</h:outputText>
+					</p:column>
+					<p:column style="width: 60px;" headerText="Ações"
+						exportable="false">
 						<p:commandButton icon="pi pi-pencil"
 							update=":dialogs:edit-task-content"
 							actionListener="#{taskBean.prepareEditTask}"
@@ -114,14 +122,14 @@
 			</h:form>
 
 			<h:form id="dialogs">
-				<p:dialog id="edit-task-content" header="Detalhes da tarefa"
+				<p:dialog id="edit-task-content" header="Editar tarefa"
 					showEffect="fade" modal="true" widgetVar="editTaskDialog"
 					responsive="true">
 					<h:panelGrid columns="2"
 						rendered="#{not empty taskBean.selectedTask}">
-						<p:outputLabel for="edit-title">Title</p:outputLabel>
-						<p:inputText class="title" id="edit-title"
-							value="#{taskBean.selectedTask.title}" required="true" />
+						<p:outputLabel for="edit-title">Título: </p:outputLabel>
+						<p:inputText required="true" maxlength="25" class="title" id="edit-title"
+							value="#{taskBean.selectedTask.title}" />
 
 						<p:outputLabel id="edit-description" for="edit-description">Description</p:outputLabel>
 						<p:inputTextarea counter="display" maxlength="41"
@@ -155,25 +163,25 @@
 
 					</h:panelGrid>
 					<f:facet name="footer">
-						<p:commandButton value="Save" icon="pi pi-check"
+						<p:commandButton type="submit" value="Salvar" icon="pi pi-check"
 							actionListener="#{taskBean.saveEditedTask}"
-							update="edit-task-content" process="edit-task-content @this"
-							action="task-list?faces-redirect=true" />
-						<p:commandButton value="Cancel" icon="pi pi-times"
-							onclick="PF('editTaskDialog').hide()" class="ui-button-secondary"
-							type="button" />
+							update=":form:tasksDataTable" process="edit-task-content @this"
+							oncomplete="PF('editTaskDialog').hide()" />
+						<p:commandButton value="Cancelar" icon="pi pi-times"
+							onclick="PF('editTaskDialog').hide()"
+							styleClass="ui-button-raised ui-button-danger" type="button" />
 					</f:facet>
 				</p:dialog>
 
 				<p:confirmDialog widgetVar="deleteTaskDialog" showEffect="fade"
 					width="300" message="Deletar a tarefa?" header="Confirmar"
 					severity="warn">
-					<p:commandButton value="Yes" icon="pi pi-check"
+					<p:commandButton value="Sim" icon="pi pi-check"
 						actionListener="#{taskBean.deleteTask}" process="@this"
 						oncomplete="PF('deleteTaskDialog').hide()"
-						action="task-list?faces-redirect=true" />
-					<p:commandButton value="No" type="button"
-						styleClass="ui-button-secondary" icon="pi pi-times"
+						update=":form:tasksDataTable" />
+					<p:commandButton value="Não" type="button"
+						styleClass="ui-button-raised ui-button-danger" icon="pi pi-times"
 						onclick="PF('deleteTaskDialog').hide()" />
 				</p:confirmDialog>
 				<p:dialog id="registerTaskModal" header="Cadastrar Tarefa"
@@ -181,7 +189,7 @@
 					closeOnEscape="true" draggable="false">
 					<h:panelGrid columns="2" rendered="#{taskBean.task ne null}">
 						<h:outputLabel for="title" value="Título: " />
-						<p:inputText class="title" id="title"
+						<p:inputText required="true" maxlength="25" class="title" id="title"
 							value="#{taskBean.task.title}" size="58" label="Firstname" />
 
 						<h:outputLabel for="description" value="Descrição: " />
@@ -197,6 +205,7 @@
 						<h:outputLabel for="taskResponsibleEnum" value="Responsável: " />
 						<p:selectOneMenu id="taskResponsibleEnum"
 							value="#{taskBean.task.taskResponsibleEnum}">
+							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 							<f:selectItems value="#{taskBean.taskResponsibleEnums}"
 								var="taskResponsibleEnum"
 								itemLabel="#{taskResponsibleEnum.descricao}"
@@ -206,6 +215,7 @@
 						<h:outputLabel for="taskPriorityLevel" value="Prioridade: " />
 						<p:selectOneMenu id="taskPriorityLevel"
 							value="#{taskBean.task.taskPriorityLevelEnum}">
+							<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
 							<f:selectItems value="#{taskBean.taskPriorityLevelEnums}"
 								var="taskPriorityLevelEnum"
 								itemLabel="#{taskPriorityLevelEnum.descricao}"
@@ -220,9 +230,9 @@
 
 					<div class="btn-cadastrar">
 						<p:commandButton class="create-task-btn" type="submit"
-							value="Cadastrar" icon="ui-icon-check"
-							actionListener="#{taskBean.createNewTask}"
-							action="task-list?faces-redirect=true"
+							update=":form:tasksDataTable" value="Cadastrar"
+							icon="ui-icon-check" actionListener="#{taskBean.createNewTask}"
+							process="registerTaskModal @this"
 							oncomplete="PF('taskDialogWidgetVar').hide()" />
 					</div>
 				</p:dialog>
@@ -230,11 +240,11 @@
 					width="300" message="Concluir a tarefa?" header="Confirmar"
 					severity="warn">
 					<p:commandButton value="Sim" icon="pi pi-check"
-						actionListener="#{taskBean.finishTask}" process="@this"
+						actionListener="#{taskBean.finishTask}"
 						oncomplete="PF('finishTaskDialog').hide()"
-						action="task-list?faces-redirect=true" />
+						update=":form:tasksDataTable" />
 					<p:commandButton value="Não" type="button"
-						styleClass="ui-button-secondary" icon="pi pi-times"
+						styleClass="ui-button-raised ui-button-danger" icon="pi pi-times"
 						onclick="PF('finishTaskDialog').hide()" />
 				</p:confirmDialog>
 				<div>

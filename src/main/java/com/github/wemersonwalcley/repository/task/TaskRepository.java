@@ -9,7 +9,6 @@ import javax.persistence.TypedQuery;
 import com.github.wemersonwalcley.entity.Task;
 import com.github.wemersonwalcley.enumerator.TaskPriorityLevelEnum;
 import com.github.wemersonwalcley.enumerator.TaskResponsibleEnum;
-import com.github.wemersonwalcley.enumerator.TaskSituationEnum;
 
 public class TaskRepository implements Serializable {
 
@@ -50,13 +49,5 @@ public class TaskRepository implements Serializable {
 		task = findById(task.getId());
 		entityManager.remove(task);
 	}
-	
-	/*
-	 * public List<Task> findAllByFilter(int id, String titulo, TaskResponsible
-	 * responsible, TaskPriorityLevel priorityLevel, TaskSituation situation ){
-	 * TypedQuery<Task> query =
-	 * entityManager.createNamedQuery("SELECT e FROM Task e WHERE e.id=:id",
-	 * Task.class); query.setParameter("id", id); return query.getResultList(); }
-	 */
 
 }

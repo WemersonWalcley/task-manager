@@ -26,9 +26,13 @@ th, td {
 }
 
 /*Apply to all buttons*/
-.ui-button {
+body .ui-button {
 	padding-right: 0.8rem !important;
 }
+
+body .ui-button.rounded-button.ui-button-icon-only{
+	margin: 5px !important;
+	}
 
 /*Apply to panel content*/
 .ui-panel-content {
@@ -36,8 +40,8 @@ th, td {
 }
 
 .ui-datatable{
-	margin-top: 40px;
-	height: 350px;
+	margin-top: 25px;
+	height: 377px;
 }
 
 /* ################Main page content configurations################*/
