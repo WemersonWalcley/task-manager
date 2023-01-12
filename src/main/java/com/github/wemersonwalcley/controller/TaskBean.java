@@ -2,9 +2,15 @@ package com.github.wemersonwalcley.controller;
 
 import java.io.Serializable;
 import java.util.List;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+
+import org.primefaces.PrimeFaces;
+
 import com.github.wemersonwalcley.entity.Task;
 import com.github.wemersonwalcley.enumerator.TaskPriorityLevelEnum;
 import com.github.wemersonwalcley.enumerator.TaskResponsibleEnum;
@@ -41,7 +47,7 @@ public class TaskBean implements Serializable {
 	private Long idFilter;
 
 	public void search() {
-		if (titleFilter.isEmpty() && idFilter == null && responsibleFilter.equals(TaskResponsibleEnum.EMPTY_RESPONSIBLE) && priorityFilter.equals(TaskPriorityLevelEnum.EMPTY_PRIORITY)) {
+		if (titleFilter.isEmpty() && idFilter == null && responsibleFilter == null && priorityFilter == null) {
 			taskList = repository.findAll();
 		} else {
 			taskList = repository.findAllByFilter(titleFilter, responsibleFilter, priorityFilter, idFilter);
@@ -50,11 +56,17 @@ public class TaskBean implements Serializable {
 	
 	public void deleteTask() {
 		taskService.delete(selectedTask);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa excluída."));
+        PrimeFaces.current().ajax().update("form:messages");
+        listarTasks();
 	}
 
 	public void finishTask() {
 		selectedTask.setTaskSituationEnum(TaskSituationEnum.COMPLETED);
 		taskService.create(selectedTask);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa concluída."));
+        PrimeFaces.current().ajax().update("form:messages");
+        listarTasks();
 	}
 
 	public void prepareNewTask() {
@@ -69,10 +81,15 @@ public class TaskBean implements Serializable {
 	public void createNewTask() {
 		task.setTaskSituationEnum(TaskSituationEnum.IN_PROGRESS);
 		taskService.create(task);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa criada."));
+        PrimeFaces.current().ajax().update("form:messages");
+		listarTasks();
 	}
 
 	public void saveEditedTask() {
 		taskService.create(selectedTask);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa editada."));
+        PrimeFaces.current().ajax().update("form:messages");
 	}
 
 	public void listarTasks() {

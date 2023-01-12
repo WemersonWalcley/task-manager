@@ -1,7 +1,6 @@
 package com.github.wemersonwalcley.enumerator;
 
 public enum TaskSituationEnum {
-	EMPTY_SITUATION("Selecione"),
 	IN_PROGRESS("Em Progresso"),
 	COMPLETED("Completo");
 	
